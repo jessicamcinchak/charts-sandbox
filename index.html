@@ -2,28 +2,28 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>D3 Test</title>
+        <title>D3 Test Ledger Summary</title>
         <script type="text/javascript" src="d3.v3/d3.v3.js"></script>
         <style type="text/css">
             div.bar {
                 display: inline-block;
                 width: 20px;
-                height: 75px;  /* We'll override this later */
-                margin-right: 2px;
-                background-color: teal;
+                height: 75px; 
+                margin-right: 4px;
+                background-color: #3eae5f;
                 }
         </style>
     </head>
     <body>
         <script type="text/javascript">
-        var dataset = [5,10,15,20,25];
+        var dataset = [6354000,21187322,9915500,5915351,6583000,64300067,30930743,50927070,8740000,17593760.65,32213262,20611254.30,21969136,6981283,6251015,3328700,14681000,12299755,503378.9];
             d3.select("body").selectAll("div")
             .data(dataset)
             .enter()
             .append("div")
             .attr("class", "bar")
             .style("height",function(d) {
-                var barHeight = d * 5;
+                var barHeight = d * .000008;
                 return barHeight + "px";
             });
         </script>
