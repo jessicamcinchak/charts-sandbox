@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Summary Bar Graph</title>
+        <script type="text/javascript" src="d3.v3/d3.v3.js"></script>
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+        var w = 500;
+        var h = 200;
+        var barPadding = 1;
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        var dataset = [6354000,21187322,9915500,5915351,6583000,64300067,30930743,50927070,8740000,17593760.65,32213262,20611254.30,21969136,6981283,6251015,3328700,14681000,12299755,503378.9];
+
+        var min = d3.min(dataset);
+        var max = d3.max(dataset);
+        console.log(min, max);
+
+        var scale = d3.scale.linear()
+                            .domain([min,max])
+                            .rangeRound([100,255]);
+
+        var circles = svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+
+            .attr("x", function(d,i) {
+                return i * (w / dataset.length);
+            })
+
+            .attr("y", function(d) {
+                return h - d/500000;
+            })
+
+            .attr("width", w / dataset.length - barPadding)
+
+            .attr("height", function(d) {
+                return d;
+            })
+
+            .attr("fill", function(d) {
+                console.log(scale(d))
+                return "rgb(0, 0, " + (scale(d)) + ")";
+            });
+
+        </script>
+    </body>
+</html>  
