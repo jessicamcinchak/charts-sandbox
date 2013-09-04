@@ -11,9 +11,9 @@
     <body>
         <script type="text/javascript">
 
-        var w = 500;
-        var h = 200;
-        var barPadding = 1;
+        var w = 600;
+        var h = 300;
+        var barPadding = 4;
         var svg = d3.select("body")
             .append("svg")
             .attr("width", w)
@@ -21,10 +21,17 @@
 
         d3.jsonp('http://aug2013.dev.detroitledger.org/api/1.0/views/orgs.jsonp/?display_id=org_totals_services&sort_by=raw_sort_1&sort_order=DESC&limit=15&callback={callback}', 
             function(data) {
+            
             var dataset = [];
 
             for (i = 0; i < data.length; i++) {
                 dataset.push(data[i].grants_received);
+            }
+
+            var titles = [];
+
+            for (i = 0; i < data.length; i++) {
+                titles.push(data[i].node_title);
             }
 
             //var dataset = [6354000,21187322,9915500,5915351,6583000,64300067,30930743,50927070,8740000,17593760.65,32213262,20611254.30,21969136,6981283,6251015,3328700,14681000,12299755,503378.9];
@@ -39,7 +46,7 @@
                             .domain([min,max])
                             .rangeRound([100,255]);
 
-            var circles = svg.selectAll("rect")
+            var rectangles = svg.selectAll("rect")
                 .data(dataset)
                 .enter()
                 .append("rect")
@@ -49,7 +56,7 @@
                 })
 
                 .attr("y", function(d) {
-                    return h - d/100000;
+                    return h - d/80000;
                 })
 
                 .attr("width", w / dataset.length - barPadding)
@@ -62,6 +69,24 @@
                     console.log(scale(d))
                     return "rgb(0, 0, " + (scale(d)) + ")";
                 });
+
+            var labels = svg.selectAll("text")
+                .data(titles)
+                .enter()
+                .append("text")
+
+                .text(function(d) {
+                    return d;
+                })
+
+                .attr("x", function(d, i) {
+                    return i * (w / dataset.length);
+                })
+
+                .attr("y", function(d, i) {
+                    return h - dataset[i]/80000;
+                });
+
             });
 
         </script>
