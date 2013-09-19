@@ -4,15 +4,16 @@
         <meta charset="utf-8">
         <title>D3 Summary Bar Graph</title>
         <script type="text/javascript" src="d3.v3/d3.v3.js"></script>
-        <script type="text/javascript" src="d3.v3/jsonp.js"></script>
+        <script type="text/javascript" src="plugins/jsonp.js"></script>
+        <script type="text/javascript" src="plugins/quartileplot.js"></script>
         <style type="text/css">
         </style>
     </head>
     <body>
         <script type="text/javascript">
 
-        var w = 600;
-        var h = 300;
+        var w = 800;
+        var h = 400;
         var barPadding = 4;
         var svg = d3.select("body")
             .append("svg")
@@ -21,7 +22,7 @@
 
         d3.jsonp('http://aug2013.dev.detroitledger.org/api/1.0/views/orgs.jsonp/?display_id=org_totals_services&sort_by=raw_sort_1&sort_order=DESC&limit=15&callback={callback}', 
             function(data) {
-            
+
             var dataset = [];
 
             for (i = 0; i < data.length; i++) {
@@ -65,10 +66,11 @@
                     return d;
                 })
 
-                .attr("fill", function(d) {
-                    console.log(scale(d))
-                    return "rgb(0, 0, " + (scale(d)) + ")";
-                });
+                .attr("fill","#36a9e2")
+
+                //.attr("fill", function(d) {
+                    //console.log(scale(d))
+                    //return "rgb(0, 0, " + (scale(d)) + ")";
 
             var labels = svg.selectAll("text")
                 .data(titles)
@@ -85,10 +87,14 @@
 
                 .attr("y", function(d, i) {
                     return h - dataset[i]/80000;
+                })
+
+                .style("text-anchor","start")
+                .attr("transform", function(d, i) {
+                    return "rotate(-40 "+ (i * (w / dataset.length)) +" "+ (h - dataset[i]/80000) +")"
                 });
 
-            });
-
+                });
         </script>
     </body>
 </html>  
